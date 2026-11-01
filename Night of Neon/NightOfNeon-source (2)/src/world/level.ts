@@ -83,6 +83,11 @@ export class Level {
   notes: { x: number; y: number; id: string; gift?: "ampoule"; label?: string }[] = [];
   /** Where a control is taught: passing column x shows that lesson's key chip (once ever). */
   lessons: { x: number; id: string }[] = [];
+  /**
+   * A first stage for learning the controls and the world: normal sword (and
+   * baton) fighters swing once per attack, with no "!" lunge and no hurried riposte.
+   */
+  gentleMelee = false;
   /** Normal enemies' health on this stage (set from the stage registry); kinds not listed keep their base health. */
   enemyHp: Partial<Record<Spawn["kind"], number>> = {};
   /** Health at the very start of the stage (not after a checkpoint). */

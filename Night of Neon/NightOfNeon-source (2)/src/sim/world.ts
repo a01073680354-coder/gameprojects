@@ -1269,10 +1269,15 @@ export class World {
         face();
         s.vx = approach(s.vx, dist < 24 && this.floorAhead(s, -s.facing) ? -s.facing * 70 : 0, 600 * dt);
         if (dist > 72) { s.state = "approach"; break; }
-        if (s.blocks >= 2) { s.blocks = 0; quick(0.2, 1); break; } // riposte after being pressed
+        if (s.blocks >= 2) {
+          // riposte after being pressed (a gentle stage keeps its usual, readable windup)
+          s.blocks = 0;
+          quick(this.level.gentleMelee ? s.def.windup ?? 0.4 : 0.2, 1);
+          break;
+        }
         if (s.timer <= 0 && !p.dead) {
-          if (dist < 84 && Math.random() < (s.def.heavyChance ?? 0.4)) heavy();
-          else quick(s.def.windup ?? 0.4, 2);
+          if (!this.level.gentleMelee && dist < 84 && Math.random() < (s.def.heavyChance ?? 0.4)) heavy();
+          else quick(s.def.windup ?? 0.4, this.level.gentleMelee ? 1 : 2);
         }
         break;
       case "block":

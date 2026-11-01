@@ -20,6 +20,8 @@ export function buildOutskirts(): Level {
   const ground = (x0: number, x1: number, top = 30) => L.fill(x0, top, x1, H - 1, S);
   const plank = (x0: number, x1: number, y: number) => L.fill(x0, y, x1, y, O);
   L.theme = "outskirts";
+  // a light first stage: learn the hands and the world (user, Nov 1). The squad swings once.
+  L.gentleMelee = true;
 
   // ---------------------------------------------------------- 1-01 the house
   ground(0, 35);
