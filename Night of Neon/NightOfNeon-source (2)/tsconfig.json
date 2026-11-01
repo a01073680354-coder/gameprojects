@@ -9,6 +9,6 @@
     "skipLibCheck": true,
     "types": []
   },
-  "files": ["vendor/types/phaser.d.ts", "vendor/types/matter.d.ts"],
+  "files": ["node_modules/phaser/types/phaser.d.ts", "node_modules/phaser/types/matter.d.ts"],
   "include": ["src/**/*.ts"]
 }

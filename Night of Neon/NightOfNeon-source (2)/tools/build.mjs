@@ -1,12 +1,11 @@
 // Bundles the game into one self-contained HTML page.
-// usage: node tools/build.mjs
-import { createRequire } from "module";
+// usage: npm run build   (or: node tools/build.mjs)
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+import esbuild from "esbuild";
 
-const require = createRequire(import.meta.url);
-const esbuild = require("/opt/npm-tools/node_modules/esbuild");
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const P = (...a) => path.join(root, ...a);
 
 const heroPng = fs.readFileSync(P("assets/hero.png")).toString("base64");

@@ -1,0 +1,15 @@
+{
+  "name": "night-of-neon",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "test": "node tools/test.mjs",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "phaser": "4.1.0",
+    "typescript": "7.0.2"
+  }
+}
