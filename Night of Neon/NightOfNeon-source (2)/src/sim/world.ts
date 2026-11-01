@@ -538,11 +538,21 @@ export class World {
     s.state = "dead";
     s.deadTime = 99;
     s.vx = s.vy = 0;
-    if (!this.soldiers.some((o) => o !== s && o.alive && o.group === s.group)) this.clearedGroups.add(s.group);
+    const last = this.noteDeath(s);
     const fb = new Bullet(s.cx, s.cy, 0, 1, "player");
     fb.alive = false;
-    this.ev.soldierDie(s, fb, !this.soldiers.some((o) => o.alive && o.group === s.group));
+    this.ev.soldierDie(s, fb, last);
     return true;
+  }
+
+  /**
+   * Call once a soldier is dead: if that was the last of its group, the group
+   * stays cleared (it won't respawn, its arena opens). Returns whether it was.
+   */
+  private noteDeath(s: Soldier): boolean {
+    const last = !this.soldiers.some((o) => o.alive && o.group === s.group);
+    if (last) this.clearedGroups.add(s.group);
+    return last;
   }
 
   private updateSoldier(s: Soldier, dt: number) {
@@ -793,7 +803,7 @@ export class World {
     for (const pr of [...this.props]) {
       if (Math.hypot(pr.cx - s.cx, pr.cy - s.cy) < R + 12) this.damageProp(pr, 2, Math.sign(pr.cx - s.cx), -0.3, true);
     }
-    if (!this.soldiers.some((o) => o !== s && o.alive && o.group === s.group)) this.clearedGroups.add(s.group);
+    this.noteDeath(s);
   }
 
   // ---------------------------------------------------------- sword duel
@@ -1604,12 +1614,11 @@ export class World {
     const dir = Math.sign(b.vx) || 1;
     if (s.hp <= 0) {
       s.state = "dead";
-      if (!this.soldiers.some((o) => o !== s && o.alive && o.group === s.group)) this.clearedGroups.add(s.group);
+      const last = this.noteDeath(s);
       s.vx = dir * (b.perfect ? 300 : 220);
       s.vy = -260;
       s.spinV = dir * 7;
       s.deadTime = 0;
-      const last = !this.soldiers.some((o) => o.alive && o.group === s.group);
       this.ev.soldierDie(s, b, last);
     } else {
       s.state = "hurt";
