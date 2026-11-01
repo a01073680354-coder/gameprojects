@@ -1,7 +1,7 @@
 import { VIEW_W, VIEW_H, STEP, TUNE, TILE, LITE_MODE, TEST, RUNTIME } from "../config";
 import { Input, InputFrame } from "../core/input";
 import { Level, Arena } from "../world/level";
-import { stageInfo, STAGES } from "../world/stages";
+import { stageInfo, STAGES, buildStage } from "../world/stages";
 import { paintTowerLevel, paintTowerReflections, paintTowerSky, paintMachineWall, paintKamikaze, paintDashHint } from "../world/art_tower";
 import { paintArchiveLevel, paintArchiveReflections, paintArchiveSky, paintCapsuleWall, paintTurret, paintRecord, paintPod } from "../world/art_archive";
 import {
@@ -346,7 +346,7 @@ export class GameScene extends Phaser.Scene {
   private storyNo(key: string) { return 1 + ["outskirts", "market", "rooftop", "spire", "archive", "ward", "rail", "eden", "laplace", "bridge", "finale"].indexOf(key); }
 
   create() {
-    this.level = stageInfo(this.stageId).build();
+    this.level = buildStage(this.stageId);
     // basics taught in STAGE 1 are not taught again on the rooftops (bible p.11)
     if (this.level.theme === "rooftop") this.level.hints = this.level.hints.filter((h) => !LESSONS.has(h.kind));
     this.events.once("destroy", () => this.cleanup());

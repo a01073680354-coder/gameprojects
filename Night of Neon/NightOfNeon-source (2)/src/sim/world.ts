@@ -166,7 +166,12 @@ export class World {
   spawnSoldiers() {
     this.soldiers = this.level.spawns
       .filter((sp) => !this.clearedGroups.has(sp.group))
-      .map((sp) => new Soldier(this.level, sp.kind, sp.x, sp.y, sp.group, sp.facing ?? -1, sp.pattern));
+      .map((sp) => {
+        const s = new Soldier(this.level, sp.kind, sp.x, sp.y, sp.group, sp.facing ?? -1, sp.pattern);
+        const hp = this.level.enemyHp[sp.kind];
+        if (hp !== undefined) s.hp = hp;
+        return s;
+      });
     this.boss = null;
     const bd = this.level.boss;
     if (bd && !this.clearedGroups.has(bd.group)) {
