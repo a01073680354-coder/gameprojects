@@ -63,6 +63,7 @@ const freeze = (b: Bulwark) => { b.state = "recover"; b.timer = 99; b.vx = 0; };
 {
   const { b } = yard();
   check("방벽 is a Bulwark: shielded, one deathblow mark, the vent intact", b instanceof Bulwark && b.shielded && b.marks === 1 && b.ventHp === BUL.ventHp, `state=${b.state}`);
+  check("no single shielded burst can burst the vent, even all perfect", BUL.shots[0] * BUL.ventPerfect < BUL.ventHp, `${BUL.shots[0]} rounds x ${BUL.ventPerfect} < ${BUL.ventHp}`);
   check("it stands facing the way you came", b.facing === -1 && b.state !== "intro", `facing=${b.facing} state=${b.state}`);
 }
 
@@ -83,9 +84,14 @@ const freeze = (b: Bulwark) => { b.state = "recover"; b.timer = 99; b.vx = 0; };
   // the body (low, from behind) is armour
   shot(w, b.x + b.w + 80, b.bottom - 8, b.cx, b.bottom - 10);
   check("the hull is armour while the shield is up", b.ventHp === BUL.ventHp - 2 && log.includes("bul:armor") && b.hp === BUL.hp, `hp=${b.hp}`);
-  // a perfect parry counts twice and finishes it
+  // a perfect parry counts twice
+  const before = b.ventHp;
   shot(w, b.x + b.w + 80, b.bottom - 30, v.x, v.y, true);
-  check("a perfect shot counts twice: the vent bursts, the shield drops", !b.shielded && b.state === "shed" && log.includes("bul:shed"), `vent=${b.ventHp} state=${b.state}`);
+  check("a perfect shot counts twice", b.ventHp === before - BUL.ventPerfect && b.shielded, `vent ${before}→${b.ventHp}`);
+  // the last of it: the vent bursts
+  b.ventHp = BUL.ventPerfect;
+  shot(w, b.x + b.w + 80, b.bottom - 30, v.x, v.y, true);
+  check("the vent bursts, the shield drops", !b.shielded && b.state === "shed" && log.includes("bul:shed"), `vent=${b.ventHp} state=${b.state}`);
   for (let i = 0; i < 120; i++) w.step(I());
   check("the shield falls to the floor and stays there", !!b.shieldDrop?.rest && Math.abs(b.shieldDrop.y - (b.bottom - 5)) < 1, JSON.stringify(b.shieldDrop && { y: Math.round(b.shieldDrop.y), rest: b.shieldDrop.rest }));
 }
@@ -158,8 +164,15 @@ const freeze = (b: Bulwark) => { b.state = "recover"; b.timer = 99; b.vx = 0; };
   check("a parried ram: heavy clash, shoved back, stalled", stopped && log.includes("clashH") && b.state === "recoil", `state=${b.state}`);
 }
 
-// 6. the whole fight, played the intended way
-{
+// 6. the whole fight, played the intended way, on five fixed dice rolls (its moves are random)
+function mulberry32(seed: number) {
+  return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+const fights: string[] = [];
+let fightsOk = true;
+const realRandom = Math.random;
+for (const seed of [1, 2, 3, 4, 5]) {
+  Math.random = mulberry32(seed);
   const { w, b, log } = yard();
   let t = 0, ventDown = -1;
   for (; t < 60 * 180 && b.state !== "dead"; t++) {
@@ -186,12 +199,38 @@ const freeze = (b: Bulwark) => { b.state = "recover"; b.timer = 99; b.vx = 0; };
     }
     w.step(I(o));
   }
-  check("parried home into the vent, the shield drops", ventDown > 0, `vent down at ${(ventDown / 60).toFixed(0)}s`);
-  check("then cut down and destroyed with a deathblow", b.state === "dead" && log.includes("deathblow") && log.includes("bossDefeated"), `t=${(t / 60).toFixed(0)}s state=${b.state} hp=${b.hp}`);
-  check("a sensible length for a second-stage boss (25-120 s for a strong player)", t / 60 > 25 && t / 60 < 120, `${(t / 60).toFixed(0)}s`);
+  const done = ventDown > 0 && b.state === "dead" && log.includes("deathblow") && log.includes("bossDefeated");
+  if (!done || t / 60 <= 25 || t / 60 >= 120) fightsOk = false;
+  fights.push(`${(t / 60).toFixed(0)}s (vent down ${(ventDown / 60).toFixed(0)}s${done ? "" : `, NOT FINISHED state=${b.state}`})`);
+}
+Math.random = realRandom;
+check("parried home into the vent, then cut down with a deathblow, in a sensible time (25-120 s for a strong player)", fightsOk, fights.join(" · "));
+
+// 7. the rhythm at its back: two moves, never a third, even standing close on the floor
+{
+  let worst = 0, runs = 0;
+  for (let r = 0; r < 12; r++) {
+    const { w, b } = yard();
+    let row = 0, last = b.state;
+    for (let i = 0; i < 60 * 25; i++) {
+      w.player.invuln = 999;
+      // always at its back, on the floor, inside slam range
+      w.player.x = b.facing < 0 ? b.x + b.w + 40 : b.x - 40 - w.player.w;
+      w.player.y = 28 * TILE - w.player.h;
+      w.player.vx = w.player.vy = 0;
+      w.step(I());
+      if (b.state !== last) {
+        if (b.state === "turn") row = 0;
+        else if (b.state === "bAim" || b.state === "ramWind" || b.state === "slamWind") worst = Math.max(worst, ++row);
+        last = b.state;
+      }
+    }
+    runs++;
+  }
+  check("at its back it allows two moves, then always turns", worst > 0 && worst <= 2, `most moves in a row at its back: ${worst} (${runs} runs)`);
 }
 
-// 7. the real yard
+// 8. the real yard
 {
   const L = buildMarket();
   check("the market ends at 방벽", L.boss?.kind === "bulwark", String(L.boss?.kind));

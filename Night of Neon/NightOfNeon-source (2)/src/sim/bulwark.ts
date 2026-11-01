@@ -27,8 +27,12 @@ import { Bullet } from "./bullet";
 import { MOD } from "./loadout";
 
 export const BUL = {
-  ventHp: 4,          // a perfect parry counts twice
-  hp: 20,
+  // More than one shielded burst can ever pay (3 rounds x a perfect 2 = 6): even
+  // flawless parrying has to read it, get behind it and turn it home twice.
+  // At 4 a strong player could end the shielded half off one burst (~22 s fights).
+  ventHp: 7,
+  ventPerfect: 2,     // what a perfect parry into the vent counts for
+  hp: 24,             // was 20: the open half a little longer too, so a strong player's fight runs ~25-75 s
   postureMax: 190,
   turn: 1.15,
   creep: 34,
@@ -131,7 +135,7 @@ export function bulwarkBullet(w: World, s: Bulwark, b: Bullet): boolean {
     const fromBehind = b.vx * s.facing > 40;
     const fromAbove = b.vy > 60;
     if (hits(b, v, 2) && (fromBehind || fromAbove)) {
-      const dmg = (b.perfect ? 2 : 1) * (MOD.reflect() > 1.2 ? 1.5 : 1);
+      const dmg = (b.perfect ? BUL.ventPerfect : 1) * (MOD.reflect() > 1.2 ? 1.5 : 1);
       s.ventHp = Math.max(0, s.ventHp - dmg);
       s.heat = Math.min(1, s.heat + 0.3);
       s.hitFlash = 0.08;
@@ -215,11 +219,12 @@ export function updateBulwark(w: World, s: Bulwark, dt: number) {
   const choose = () => {
     const wt: Record<BulMove, number> = { burst: 3, ram: 0, slam: 0, turn: 0 };
     if (behind) wt.turn = dist < 200 ? 2.2 : 1.4;
-    // a learnable rhythm: it gives you two moves at its back, never a third
-    s.behindN = behind ? s.behindN + 1 : 0;
-    if (behind && s.behindN >= 3) { wt.burst = wt.ram = wt.slam = 0; wt.turn = 1; }
     if (!behind && onFloor && dist > 70 && dist < 300) wt.ram = 3;
     if (onFloor && dist < 230) wt.slam = 2.2;
+    // a learnable rhythm: it gives you two moves at its back, never a third
+    // (decided last, so no other weight can put the slam back in)
+    s.behindN = behind ? s.behindN + 1 : 0;
+    if (behind && s.behindN >= 3) { wt.burst = wt.ram = wt.slam = 0; wt.turn = 1; }
     const h = s.moves;
     const last = h[h.length - 1];
     if (last && wt[last] > 0 && wt.turn !== 1) wt[last] *= 0.45;

@@ -2,6 +2,7 @@
 
 import { Player } from "../entities/player";
 import { Boss } from "../sim/boss";
+import { BUL } from "../sim/bulwark";
 import { VIEW_W, VIEW_H, LITE_MODE } from "../config";
 import { drawText } from "../ui/pixelfont";
 
@@ -60,8 +61,9 @@ export class Hud {
     const pw = 200, px = Math.round(VIEW_W / 2 - pw / 2), py = y + 8;
     const bw = b as Boss & { shielded?: boolean; ventHp?: number };
     if (bw.shielded && bw.ventHp !== undefined) {
-      // 방벽 behind its shield: no posture yet, only the vent (four amber cells)
-      const n = 4, cw = 22, gap = 3, tw = n * cw + (n - 1) * gap, vx0 = Math.round(VIEW_W / 2 - tw / 2);
+      // 방벽 behind its shield: no posture yet, only the vent (one amber cell per point, within the posture bar's width)
+      const n = BUL.ventHp, gap = 3, cw = Math.min(22, Math.floor((pw - (n - 1) * gap) / n));
+      const tw = n * cw + (n - 1) * gap, vx0 = Math.round(VIEW_W / 2 - tw / 2);
       for (let i = 0; i < n; i++) {
         const on = i < Math.ceil(bw.ventHp);
         g.fillStyle(0x07050f, 0.8 * a);
