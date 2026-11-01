@@ -1,0 +1,200 @@
+{
+ "frameWidth": 96,
+ "frameHeight": 80,
+ "originX": 46,
+ "originY": 78,
+ "anims": {
+  "idle": {
+   "start": 0,
+   "end": 5,
+   "fps": 6,
+   "loop": true
+  },
+  "run": {
+   "start": 6,
+   "end": 13,
+   "fps": 14,
+   "loop": true
+  },
+  "skid": {
+   "start": 14,
+   "end": 15,
+   "fps": 12,
+   "loop": false
+  },
+  "jump": {
+   "start": 16,
+   "end": 17,
+   "fps": 12,
+   "loop": false
+  },
+  "apex": {
+   "start": 18,
+   "end": 18,
+   "fps": 10,
+   "loop": false
+  },
+  "fall": {
+   "start": 19,
+   "end": 20,
+   "fps": 10,
+   "loop": true
+  },
+  "land": {
+   "start": 21,
+   "end": 22,
+   "fps": 16,
+   "loop": false
+  },
+  "dash": {
+   "start": 23,
+   "end": 24,
+   "fps": 20,
+   "loop": true
+  },
+  "hurt": {
+   "start": 25,
+   "end": 26,
+   "fps": 10,
+   "loop": false
+  },
+  "parry_fwd": {
+   "start": 27,
+   "end": 31,
+   "fps": 26,
+   "loop": false
+  },
+  "parry_fwd_air": {
+   "start": 32,
+   "end": 36,
+   "fps": 26,
+   "loop": false
+  },
+  "parry_up": {
+   "start": 37,
+   "end": 41,
+   "fps": 26,
+   "loop": false
+  },
+  "parry_up_air": {
+   "start": 42,
+   "end": 46,
+   "fps": 26,
+   "loop": false
+  },
+  "parry_down": {
+   "start": 47,
+   "end": 51,
+   "fps": 26,
+   "loop": false
+  },
+  "parry_down_air": {
+   "start": 52,
+   "end": 56,
+   "fps": 26,
+   "loop": false
+  },
+  "slash1_fwd": {
+   "start": 57,
+   "end": 60,
+   "fps": 28,
+   "loop": false
+  },
+  "slash1_fwd_air": {
+   "start": 61,
+   "end": 64,
+   "fps": 28,
+   "loop": false
+  },
+  "slash2_fwd": {
+   "start": 65,
+   "end": 68,
+   "fps": 28,
+   "loop": false
+  },
+  "slash2_fwd_air": {
+   "start": 69,
+   "end": 72,
+   "fps": 28,
+   "loop": false
+  },
+  "slash1_up": {
+   "start": 73,
+   "end": 76,
+   "fps": 28,
+   "loop": false
+  },
+  "slash1_up_air": {
+   "start": 77,
+   "end": 80,
+   "fps": 28,
+   "loop": false
+  },
+  "slash2_up": {
+   "start": 81,
+   "end": 84,
+   "fps": 28,
+   "loop": false
+  },
+  "slash2_up_air": {
+   "start": 85,
+   "end": 88,
+   "fps": 28,
+   "loop": false
+  },
+  "slash1_down": {
+   "start": 89,
+   "end": 92,
+   "fps": 28,
+   "loop": false
+  },
+  "slash1_down_air": {
+   "start": 93,
+   "end": 96,
+   "fps": 28,
+   "loop": false
+  },
+  "slash2_down": {
+   "start": 97,
+   "end": 100,
+   "fps": 28,
+   "loop": false
+  },
+  "slash2_down_air": {
+   "start": 101,
+   "end": 104,
+   "fps": 28,
+   "loop": false
+  },
+  "heal": {
+   "start": 105,
+   "end": 109,
+   "fps": 10,
+   "loop": false
+  },
+  "death": {
+   "start": 110,
+   "end": 114,
+   "fps": 8,
+   "loop": false
+  },
+  "dead": {
+   "start": 115,
+   "end": 115,
+   "fps": 1,
+   "loop": false
+  },
+  "parry": {
+   "start": 27,
+   "end": 31,
+   "fps": 26,
+   "loop": false
+  },
+  "wall": {
+   "start": 19,
+   "end": 20,
+   "fps": 10,
+   "loop": true
+  }
+ }
+}

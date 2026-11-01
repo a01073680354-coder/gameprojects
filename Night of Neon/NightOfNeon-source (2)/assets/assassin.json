@@ -1,0 +1,108 @@
+{
+ "anims": {
+  "stand": {
+   "start": 0,
+   "end": 3,
+   "fps": 5,
+   "loop": true,
+   "ox": 46,
+   "oy": 94
+  },
+  "cling": {
+   "start": 4,
+   "end": 5,
+   "fps": 4,
+   "loop": true,
+   "ox": 48,
+   "oy": 48
+  },
+  "clingAim": {
+   "start": 6,
+   "end": 7,
+   "fps": 14,
+   "loop": true,
+   "ox": 48,
+   "oy": 48
+  },
+  "ceil": {
+   "start": 8,
+   "end": 9,
+   "fps": 4,
+   "loop": true,
+   "ox": 48,
+   "oy": 48
+  },
+  "ceilAim": {
+   "start": 10,
+   "end": 11,
+   "fps": 14,
+   "loop": true,
+   "ox": 48,
+   "oy": 48
+  },
+  "dash": {
+   "start": 12,
+   "end": 13,
+   "fps": 20,
+   "loop": true,
+   "ox": 48,
+   "oy": 48
+  },
+  "cut1": {
+   "start": 14,
+   "end": 15,
+   "fps": 30,
+   "loop": false,
+   "ox": 48,
+   "oy": 48
+  },
+  "cut2": {
+   "start": 16,
+   "end": 17,
+   "fps": 30,
+   "loop": false,
+   "ox": 48,
+   "oy": 48
+  },
+  "recoil": {
+   "start": 18,
+   "end": 18,
+   "fps": 10,
+   "loop": false,
+   "ox": 48,
+   "oy": 48
+  },
+  "stun": {
+   "start": 19,
+   "end": 20,
+   "fps": 3,
+   "loop": true,
+   "ox": 46,
+   "oy": 94
+  },
+  "fall": {
+   "start": 21,
+   "end": 21,
+   "fps": 8,
+   "loop": true,
+   "ox": 46,
+   "oy": 94
+  },
+  "land": {
+   "start": 22,
+   "end": 22,
+   "fps": 12,
+   "loop": false,
+   "ox": 46,
+   "oy": 94
+  },
+  "dead": {
+   "start": 23,
+   "end": 23,
+   "fps": 1,
+   "loop": false,
+   "ox": 46,
+   "oy": 94
+  }
+ }
+}

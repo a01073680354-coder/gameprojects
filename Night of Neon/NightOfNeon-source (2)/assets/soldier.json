@@ -1,0 +1,126 @@
+{
+ "anims": {
+  "rifle": {
+   "idle": {
+    "start": 0,
+    "end": 3,
+    "fps": 5,
+    "loop": true
+   },
+   "walk": {
+    "start": 4,
+    "end": 11,
+    "fps": 10,
+    "loop": true
+   },
+   "aim": {
+    "start": 12,
+    "end": 13,
+    "fps": 6,
+    "loop": true
+   },
+   "hurt": {
+    "start": 14,
+    "end": 14,
+    "fps": 10,
+    "loop": false
+   },
+   "dead": {
+    "start": 15,
+    "end": 15,
+    "fps": 10,
+    "loop": false
+   }
+  },
+  "burst": {
+   "idle": {
+    "start": 0,
+    "end": 3,
+    "fps": 5,
+    "loop": true
+   },
+   "walk": {
+    "start": 4,
+    "end": 11,
+    "fps": 10,
+    "loop": true
+   },
+   "aim": {
+    "start": 12,
+    "end": 13,
+    "fps": 6,
+    "loop": true
+   },
+   "hurt": {
+    "start": 14,
+    "end": 14,
+    "fps": 10,
+    "loop": false
+   },
+   "dead": {
+    "start": 15,
+    "end": 15,
+    "fps": 10,
+    "loop": false
+   }
+  },
+  "heavy": {
+   "idle": {
+    "start": 0,
+    "end": 3,
+    "fps": 5,
+    "loop": true
+   },
+   "walk": {
+    "start": 4,
+    "end": 11,
+    "fps": 10,
+    "loop": true
+   },
+   "aim": {
+    "start": 12,
+    "end": 13,
+    "fps": 6,
+    "loop": true
+   },
+   "hurt": {
+    "start": 14,
+    "end": 14,
+    "fps": 10,
+    "loop": false
+   },
+   "dead": {
+    "start": 15,
+    "end": 15,
+    "fps": 10,
+    "loop": false
+   }
+  }
+ },
+ "shoulder": [
+  27,
+  37
+ ],
+ "armPivot": [
+  4,
+  6
+ ],
+ "armPivots": {
+  "rifle": [
+   4,
+   6
+  ],
+  "burst": [
+   4,
+   6
+  ],
+  "heavy": [
+   4,
+   7
+  ]
+ },
+ "muzzle": [
+  41,
+  6
+ ]
+}

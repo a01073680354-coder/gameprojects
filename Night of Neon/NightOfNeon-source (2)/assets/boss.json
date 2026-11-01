@@ -1,0 +1,296 @@
+{
+ "frameWidth": 160,
+ "frameHeight": 128,
+ "originX": 70,
+ "originY": 122,
+ "anims": {
+  "guard": {
+   "start": 0,
+   "end": 3,
+   "fps": 5,
+   "loop": true
+  },
+  "walk": {
+   "start": 4,
+   "end": 9,
+   "fps": 9,
+   "loop": true
+  },
+  "intro": {
+   "start": 10,
+   "end": 11,
+   "fps": 4,
+   "loop": true
+  },
+  "windup": {
+   "start": 12,
+   "end": 13,
+   "fps": 8,
+   "loop": false
+  },
+  "strike": {
+   "start": 14,
+   "end": 16,
+   "fps": 24,
+   "loop": false
+  },
+  "strike2": {
+   "start": 17,
+   "end": 19,
+   "fps": 24,
+   "loop": false
+  },
+  "delay": {
+   "start": 20,
+   "end": 21,
+   "fps": 10,
+   "loop": true
+  },
+  "strike3": {
+   "start": 22,
+   "end": 24,
+   "fps": 22,
+   "loop": false
+  },
+  "recover": {
+   "start": 25,
+   "end": 27,
+   "fps": 5,
+   "loop": false
+  },
+  "heavy": {
+   "start": 28,
+   "end": 29,
+   "fps": 8,
+   "loop": true
+  },
+  "lunge": {
+   "start": 30,
+   "end": 32,
+   "fps": 18,
+   "loop": false
+  },
+  "sweepWind": {
+   "start": 33,
+   "end": 34,
+   "fps": 8,
+   "loop": true
+  },
+  "sweep": {
+   "start": 35,
+   "end": 37,
+   "fps": 22,
+   "loop": false
+  },
+  "leapWind": {
+   "start": 38,
+   "end": 39,
+   "fps": 10,
+   "loop": false
+  },
+  "air": {
+   "start": 40,
+   "end": 41,
+   "fps": 6,
+   "loop": true
+  },
+  "fall": {
+   "start": 42,
+   "end": 42,
+   "fps": 6,
+   "loop": true
+  },
+  "smash": {
+   "start": 43,
+   "end": 45,
+   "fps": 20,
+   "loop": false
+  },
+  "block": {
+   "start": 46,
+   "end": 46,
+   "fps": 10,
+   "loop": false
+  },
+  "brace": {
+   "start": 47,
+   "end": 48,
+   "fps": 12,
+   "loop": true
+  },
+  "recoil": {
+   "start": 49,
+   "end": 49,
+   "fps": 10,
+   "loop": false
+  },
+  "stagger": {
+   "start": 50,
+   "end": 51,
+   "fps": 3,
+   "loop": true
+  },
+  "hurt": {
+   "start": 52,
+   "end": 52,
+   "fps": 10,
+   "loop": false
+  },
+  "kneel": {
+   "start": 53,
+   "end": 54,
+   "fps": 2,
+   "loop": true
+  },
+  "dead": {
+   "start": 55,
+   "end": 55,
+   "fps": 1,
+   "loop": false
+  },
+  "guard_b": {
+   "start": 56,
+   "end": 59,
+   "fps": 5,
+   "loop": true
+  },
+  "walk_b": {
+   "start": 60,
+   "end": 65,
+   "fps": 9,
+   "loop": true
+  },
+  "intro_b": {
+   "start": 66,
+   "end": 67,
+   "fps": 4,
+   "loop": true
+  },
+  "windup_b": {
+   "start": 68,
+   "end": 69,
+   "fps": 8,
+   "loop": false
+  },
+  "strike_b": {
+   "start": 70,
+   "end": 72,
+   "fps": 24,
+   "loop": false
+  },
+  "strike2_b": {
+   "start": 73,
+   "end": 75,
+   "fps": 24,
+   "loop": false
+  },
+  "delay_b": {
+   "start": 76,
+   "end": 77,
+   "fps": 10,
+   "loop": true
+  },
+  "strike3_b": {
+   "start": 78,
+   "end": 80,
+   "fps": 22,
+   "loop": false
+  },
+  "recover_b": {
+   "start": 81,
+   "end": 83,
+   "fps": 5,
+   "loop": false
+  },
+  "heavy_b": {
+   "start": 84,
+   "end": 85,
+   "fps": 8,
+   "loop": true
+  },
+  "lunge_b": {
+   "start": 86,
+   "end": 88,
+   "fps": 18,
+   "loop": false
+  },
+  "sweepWind_b": {
+   "start": 89,
+   "end": 90,
+   "fps": 8,
+   "loop": true
+  },
+  "sweep_b": {
+   "start": 91,
+   "end": 93,
+   "fps": 22,
+   "loop": false
+  },
+  "leapWind_b": {
+   "start": 94,
+   "end": 95,
+   "fps": 10,
+   "loop": false
+  },
+  "air_b": {
+   "start": 96,
+   "end": 97,
+   "fps": 6,
+   "loop": true
+  },
+  "fall_b": {
+   "start": 98,
+   "end": 98,
+   "fps": 6,
+   "loop": true
+  },
+  "smash_b": {
+   "start": 99,
+   "end": 101,
+   "fps": 20,
+   "loop": false
+  },
+  "block_b": {
+   "start": 102,
+   "end": 102,
+   "fps": 10,
+   "loop": false
+  },
+  "brace_b": {
+   "start": 103,
+   "end": 104,
+   "fps": 12,
+   "loop": true
+  },
+  "recoil_b": {
+   "start": 105,
+   "end": 105,
+   "fps": 10,
+   "loop": false
+  },
+  "stagger_b": {
+   "start": 106,
+   "end": 107,
+   "fps": 3,
+   "loop": true
+  },
+  "hurt_b": {
+   "start": 108,
+   "end": 108,
+   "fps": 10,
+   "loop": false
+  },
+  "kneel_b": {
+   "start": 109,
+   "end": 110,
+   "fps": 2,
+   "loop": true
+  },
+  "dead_b": {
+   "start": 111,
+   "end": 111,
+   "fps": 1,
+   "loop": false
+  }
+ }
+}

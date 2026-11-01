@@ -1,0 +1,82 @@
+{
+ "anims": {
+  "guard": {
+   "start": 0,
+   "end": 3,
+   "fps": 5,
+   "loop": true
+  },
+  "walk": {
+   "start": 4,
+   "end": 9,
+   "fps": 10,
+   "loop": true
+  },
+  "windup": {
+   "start": 10,
+   "end": 12,
+   "fps": 9,
+   "loop": false
+  },
+  "strike": {
+   "start": 13,
+   "end": 15,
+   "fps": 26,
+   "loop": false
+  },
+  "strike2": {
+   "start": 16,
+   "end": 18,
+   "fps": 26,
+   "loop": false
+  },
+  "recover": {
+   "start": 19,
+   "end": 21,
+   "fps": 6,
+   "loop": false
+  },
+  "heavy": {
+   "start": 22,
+   "end": 23,
+   "fps": 8,
+   "loop": true
+  },
+  "lunge": {
+   "start": 24,
+   "end": 26,
+   "fps": 18,
+   "loop": false
+  },
+  "block": {
+   "start": 27,
+   "end": 27,
+   "fps": 10,
+   "loop": false
+  },
+  "recoil": {
+   "start": 28,
+   "end": 28,
+   "fps": 10,
+   "loop": false
+  },
+  "stagger": {
+   "start": 29,
+   "end": 30,
+   "fps": 3,
+   "loop": true
+  },
+  "hurt": {
+   "start": 31,
+   "end": 31,
+   "fps": 10,
+   "loop": false
+  },
+  "dead": {
+   "start": 32,
+   "end": 32,
+   "fps": 1,
+   "loop": false
+  }
+ }
+}
