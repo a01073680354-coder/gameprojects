@@ -38,7 +38,7 @@ const esc = (s) => s.replace(/<\/script/gi, "<\\/script");
 const skeleton = (html) =>
   `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>body{margin:0}</style></head><body>${html}</body></html>`;
 
-async function bundle(lite) {
+async function bundle() {
   const res = await esbuild.build({
     entryPoints: [P("src/main.ts")],
     bundle: true,
@@ -47,7 +47,7 @@ async function bundle(lite) {
     target: "es2020",
     minify: !process.env.NOMINIFY,
     define: {
-      // every lite-build fix now ships in both builds (user decision, Oct 30)
+      // the laptop-friendly path is the only one (lite fixes for all, Oct 30; one build, Nov 1)
       LITE: "true",
       HERO_PNG: JSON.stringify("data:image/png;base64," + heroPng),
       HERO_ANIMS: JSON.stringify(heroJson.anims),
@@ -61,21 +61,20 @@ async function bundle(lite) {
     },
   });
   const game = res.outputFiles[0].text;
-  let html = fs.readFileSync(P("tools/template.html"), "utf8");
-  if (lite) {
-    html = html.replace("<title>Night of Neon</title>", "<title>Night of Neon Lite</title>");
-    html = html.replace(/BUILD (M\d+)/, "BUILD $1 LITE · 노트북용");
-  }
+  const html = fs.readFileSync(P("tools/template.html"), "utf8");
   return html.replace("/*PHASER*/", () => esc(phaser)).replace("/*GAME*/", () => esc(game));
 }
 
+// One build only (the Lite build was retired, user decision Nov 1).
 fs.mkdirSync(P("dist"), { recursive: true });
-const full = await bundle(false);
-const lite = await bundle(true);
-fs.writeFileSync(P("dist/neon-swordsman.html"), full);
-fs.writeFileSync(P("dist/neon-lite.html"), lite);
-// local test copies with a document skeleton (the artifact host adds this itself)
-fs.writeFileSync(P("dist/test.html"), skeleton(full));
-fs.writeFileSync(P("dist/test-lite.html"), skeleton(lite));
-const html = lite;
+const html = await bundle();
+fs.writeFileSync(P("dist/neon.html"), html);
+// local test copy with a document skeleton (the artifact host adds this itself)
+fs.writeFileSync(P("dist/test.html"), skeleton(html));
 console.log("built", (html.length / 1024).toFixed(0) + " KB");
+// npm run release: also the playable copy next to the source folder
+if (process.argv.includes("--release")) {
+  const out = path.resolve(root, "..", "NightOfNeon.html");
+  fs.writeFileSync(out, html);
+  console.log("released", out);
+}

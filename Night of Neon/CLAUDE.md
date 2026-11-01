@@ -15,9 +15,16 @@
 5. Preserve existing controls, combat mechanics, game progression, UI, and saves where present.
 6. Do not rewrite the entire project unless explicitly requested.
 7. Do not add frameworks, libraries, or external dependencies without approval.
-8. Preserve the original Lite version as a fallback unless explicitly instructed.
+8. Ship a single build (`NightOfNeon.html`). The separate Lite build was retired at the user's request on 2026-11-01; the last Lite build stays in git history.
 9. Explain which files were modified and why.
 10. Do not claim a test passed unless it was actually run.
+
+## Source and build
+
+- The real source is TypeScript in `NightOfNeon-source (2)/src`. The HTML files are build output: never edit them by hand.
+- In `NightOfNeon-source (2)`: `npm test` (headless tests), `npm run typecheck`, `npm run build` (writes `dist/`), `npm run release` (tests, then writes `../NightOfNeon.html`).
+- `vendor/phaser.min.js` is the official Phaser 4.1.0 build; do not swap it without approval.
+- `NightOfNeon (1).html` is the original game as received, kept as a backup.
 
 ## Validation
 
