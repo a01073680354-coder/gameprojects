@@ -10,7 +10,7 @@ import { Bullet } from "./bullet";
 import { Soldier } from "./soldier";
 import { Boss, updateBoss, BOSS, inFinale, startFinale, endFinale } from "./boss";
 import { Archivist, updateArchivist, archivistHit } from "./archivist";
-import { WALLET, MOD } from "./loadout";
+import { WALLET, MOD, earn } from "./loadout";
 import { Assassin, updateAssassin, assassinClash } from "./assassin";
 import { Chief, updateChief } from "./chief";
 import { Bulwark, updateBulwark, bulwarkBullet, bulwarkAimPoint, bulwarkParried } from "./bulwark";
@@ -1129,7 +1129,7 @@ export class World {
     for (const r of L.shards) {
       if (WALLET.shardsTaken.has(r.id)) continue;
       const rx = r.x * TILE + 8, ry = r.y * TILE + 8;
-      if (Math.abs(rx - c.x) < 14 && Math.abs(ry - c.y) < 24) { WALLET.shardsTaken.add(r.id); WALLET.shards++; this.ev.shard?.(r.id, rx, ry); }
+      if (Math.abs(rx - c.x) < 14 && Math.abs(ry - c.y) < 24) { earn(0, 1, r.id); this.ev.shard?.(r.id, rx, ry); }
     }
     for (const r of L.records) {
       if (this.recordsTaken.has(r.id)) continue;

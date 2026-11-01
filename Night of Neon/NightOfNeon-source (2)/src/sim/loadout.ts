@@ -23,6 +23,41 @@ export const WALLET = {
   sealBank: 0,
 };
 
+/**
+ * Earnings since the last checkpoint (or stage start, or stage clear). A death
+ * takes them back, so enemies that come back with the respawn can't be farmed
+ * (user decision, Nov 1). Spending is never undone, boss rewards don't pass
+ * through here, and the restart key (Y) keeps everything.
+ */
+const PENDING = { chips: 0, shards: 0, shardIds: [] as string[] };
+
+/** Money (and a found shard) that a death before the next checkpoint will take back. */
+export function earn(chips: number, shards = 0, shardId?: string) {
+  WALLET.chips += chips;
+  WALLET.shards += shards;
+  PENDING.chips += chips;
+  PENDING.shards += shards;
+  if (shardId) { WALLET.shardsTaken.add(shardId); PENDING.shardIds.push(shardId); }
+}
+
+/** A checkpoint, a stage start or clear: what was earned is kept for good. */
+export function commitEarnings() {
+  PENDING.chips = 0;
+  PENDING.shards = 0;
+  PENDING.shardIds = [];
+}
+
+/** Death: give back what was earned since the last commit; found shards return to their places. */
+export function forfeitEarnings(): { chips: number; shards: number } {
+  const chips = Math.min(WALLET.chips, PENDING.chips);
+  const shards = Math.min(WALLET.shards, PENDING.shards);
+  WALLET.chips -= chips;
+  WALLET.shards -= shards;
+  for (const id of PENDING.shardIds) WALLET.shardsTaken.delete(id);
+  commitEarnings();
+  return { chips, shards };
+}
+
 /** Chips dropped per kill. */
 export const BOUNTY: Record<string, number> = {
   rifle: 6, burst: 8, blade: 8, drone: 7, kamikaze: 5, turret: 7, heavy: 25, boss: 60, collector: 6, burner: 7,

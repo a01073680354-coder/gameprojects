@@ -28,7 +28,7 @@ import { ARCHIVE_MUSIC, ARCHIVIST_MUSIC } from "../audio/archivemusic";
 import { Boss } from "../sim/boss";
 import { Assassin, ASN } from "../sim/assassin";
 import { Archivist } from "../sim/archivist";
-import { WALLET, BOUNTY } from "../sim/loadout";
+import { WALLET, BOUNTY, earn, commitEarnings, forfeitEarnings } from "../sim/loadout";
 import { SHOP_UI } from "../ui/shop";
 import { SCENES } from "../story/script";
 import { paintForge, paintSupply, paintBazaar, paintShard } from "../world/art_shop";
@@ -363,6 +363,7 @@ export class GameScene extends Phaser.Scene {
     this.buildStageObjects();
 
     this.world = new World(this.level, this.makeEvents());
+    commitEarnings(); // a stage starts with nothing at stake
     this.sprite = this.add.sprite(0, 0, "hero", 0).setDepth(10);
     this.after = new Afterimages(this, 9.5);
     this.fx = new Particles(this, 20);
@@ -2508,7 +2509,7 @@ export class GameScene extends Phaser.Scene {
   /** Chips for a kill. */
   private bounty(kind: string, x: number, y: number) {
     const n = BOUNTY[kind] ?? 5;
-    WALLET.chips += n;
+    earn(n);
     this.combat.popup(`+${n}C`, x, y - 30, 0xffcf7a, 0x5a3a10, 1, 0.8);
   }
 
@@ -2733,6 +2734,7 @@ export class GameScene extends Phaser.Scene {
     this.combat.ring(x, y, C.cyanHi, 40, 0.4, 2);
     this.player.hp = this.player.maxHp;
     this.showBanner("CHECKPOINT");
+    commitEarnings();
     SAVE.write(this.stageId, i);
   }
 
@@ -2744,7 +2746,7 @@ export class GameScene extends Phaser.Scene {
       this.stats.deaths++;
       this.logDeath("추락");
       this.sm.duck(0.35);
-      this.cinema.death(() => this.respawn(false));
+      this.cinema.death(() => this.respawnAfterDeath());
     } else {
       this.snapCamera();
     }
@@ -2755,6 +2757,7 @@ export class GameScene extends Phaser.Scene {
     if (this.level.boss) PLAYLOG.boss(this.bossName(this.world.boss)).won = true;
     // the save moves on to the start of the next stage (or stays here at the end of what is built)
     const nid = this.nextId();
+    commitEarnings();
     SAVE.write(nid ?? this.stageId, -1);
     SFX.stageClear();
     this.sm.stop(2);
@@ -2808,7 +2811,7 @@ export class GameScene extends Phaser.Scene {
       this.stats.deaths++;
       this.logDeath(this.deathCause(b));
       this.sm.duck(0.35);
-      this.cinema.death(() => this.respawn(false));
+      this.cinema.death(() => this.respawnAfterDeath());
     }
   }
 
@@ -2887,6 +2890,17 @@ export class GameScene extends Phaser.Scene {
     }
   }
 
+  /** After a death: chips and shards found since the last checkpoint are lost, then back to it. */
+  private respawnAfterDeath() {
+    const lost = forfeitEarnings();
+    this.respawn(false);
+    if (lost.chips || lost.shards) {
+      const p = this.player;
+      const text = `-${lost.chips}C` + (lost.shards ? `  -${lost.shards} SHARD` : "");
+      this.time.delayedCall(500, () => this.combat.popup(text, p.cx, p.y - 30, 0xff9cc2, 0x5a1030, 1, 1.4));
+    }
+  }
+
   /** full = restart the stage; otherwise return to the last checkpoint. */
   respawn(full: boolean) {
     for (const s of this.world.soldiers) SFX.aimStop(s.id);
@@ -2903,6 +2917,7 @@ export class GameScene extends Phaser.Scene {
     if (this.maskFall) { this.maskFall.img.destroy(); this.maskFall = null; }
     if (!this.sm.playing) this.sm.start();
     if (full) {
+      commitEarnings(); // the restart key (a test tool) keeps everything earned
       this.stats = { start: this.realTime, kills: 0, wrecks: 0, parries: 0, perfects: 0, deaths: 0, cines: 0, props: 0, bossStart: 0, bossTime: -1 };
       const el = document.getElementById("clear");
       if (el) el.hidden = true;
