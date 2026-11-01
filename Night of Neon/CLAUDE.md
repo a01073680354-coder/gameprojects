@@ -20,6 +20,7 @@
 10. Do not claim a test passed unless it was actually run.
 
 ## Validation
+
 - Check for JavaScript syntax errors when tooling is available.
 - Check for browser console errors when browser testing is available.
 - Verify the requested feature and potential regressions.
