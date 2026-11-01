@@ -24,7 +24,8 @@ export const WALLET = {
 };
 
 /**
- * Earnings since the last checkpoint (or stage start, or stage clear). A death
+ * Earnings since the last checkpoint (or stage start, stage clear, or a locked
+ * encounter cleared: those enemies never come back). A death
  * takes them back, so enemies that come back with the respawn can't be farmed
  * (user decision, Nov 1). Spending is never undone, boss rewards don't pass
  * through here, and the restart key (Y) keeps everything.
@@ -40,7 +41,7 @@ export function earn(chips: number, shards = 0, shardId?: string) {
   if (shardId) { WALLET.shardsTaken.add(shardId); PENDING.shardIds.push(shardId); }
 }
 
-/** A checkpoint, a stage start or clear: what was earned is kept for good. */
+/** A checkpoint, a stage start or clear, an encounter cleared: what was earned is kept for good. */
 export function commitEarnings() {
   PENDING.chips = 0;
   PENDING.shards = 0;

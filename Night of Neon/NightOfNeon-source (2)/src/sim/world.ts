@@ -10,7 +10,7 @@ import { Bullet } from "./bullet";
 import { Soldier } from "./soldier";
 import { Boss, updateBoss, BOSS, inFinale, startFinale, endFinale } from "./boss";
 import { Archivist, updateArchivist, archivistHit } from "./archivist";
-import { WALLET, MOD, earn } from "./loadout";
+import { WALLET, MOD, earn, commitEarnings } from "./loadout";
 import { Assassin, updateAssassin, assassinClash } from "./assassin";
 import { Chief, updateChief } from "./chief";
 import { Bulwark, updateBulwark, bulwarkBullet, bulwarkAimPoint, bulwarkParried } from "./bulwark";
@@ -420,6 +420,8 @@ export class World {
         if (this.activeArenas.has(a.group)) {
           this.activeArenas.delete(a.group);
           this.setWalls(a, false);
+          // its enemies are gone for good, so what they paid is kept for good
+          commitEarnings();
           this.ev.arenaClear(a);
         }
         continue;

@@ -63,6 +63,23 @@ fresh();
   check("…and a death puts it back", WALLET.shards === 0 && !WALLET.shardsTaken.has("test-shard"), "");
 }
 
+// ------------------------------------------------------- a cleared encounter keeps its pay
+fresh();
+{
+  const w = new World(buildStage(12), ev);
+  const a = w.level.arenas.find((ar) => !ar.boss)!;
+  w.activeArenas.add(a.group);
+  earn(16);
+  (w as any).checkArenas(); // still fighting
+  forfeitEarnings();
+  check("mid-encounter, a death still takes the pay", WALLET.chips === 0, `chips=${WALLET.chips}`);
+  earn(16);
+  w.clearedGroups.add(a.group);
+  (w as any).checkArenas(); // the last one falls: the walls open
+  forfeitEarnings();
+  check("once the encounter is cleared, a death no longer takes its pay", WALLET.chips === 16 && !w.activeArenas.has(a.group), `chips=${WALLET.chips}`);
+}
+
 // ------------------------------------------------------- enemy health by stage
 /** Hits to bring a soldier down through the real World code. */
 function hitsToKill(w: World, s: Soldier, damage: () => Bullet): number {
